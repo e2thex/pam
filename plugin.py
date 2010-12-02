@@ -4,15 +4,15 @@ class Plugin(object):
     self.pam = pam
   def load(self): pass
 
-  def add_watcher(self, watcher):
-    self.pam.add_watcher(watcher)
+  def add_listener(self, listener):
+    self.pam.add_listener(listener)
   
-class Watcher(object):
+class Listener(object):
   def __init__(self,name, onMessage, for_me=None):
     self.name = name
     self.onMessage = onMessage
 
-class RegexWatcher(Watcher):
+class RegexListener(Listener):
   def __init__(self, name, regexes, on_match):
     self.name = name
     self.on_match = on_match

@@ -7,6 +7,7 @@ import os
 import inspect 
 import re
 import sys
+from pymongo import Connection
 
 class PAM(MessageProtocol):
   def __init__(self):
@@ -15,11 +16,14 @@ class PAM(MessageProtocol):
     self.load()
 
   def load(self):
-    self._watchers = {}
+    self._listeners = {}
     self.current = {}
     self.data = {}
     self.load_all_plugins_in_path(os.path.join(PAM.loc(),"plugins"))
-
+    #connect to mongo
+    connection = Connection()
+    self.db = connection.pam
+    
   def load_plugin(self, path, plugin_name):
     # if there is no path make sure the plugin paths are load
     # incase we are loading a plugin from them
@@ -78,21 +82,21 @@ class PAM(MessageProtocol):
     if hasattr(msg, "body"):
       if msg['from'] in self.current:
         current = self.current[msg['from']]
-        data = self._watchers[current['owner']].onMessage(msg, current['data'])
+        data = self._listeners[current['owner']].onMessage(msg, current['data'])
         if data:
           self.current[msg['from']] = {'owner':name, 'data':data }
         else:
           del self.current[msg['from']]
         
       else : 
-        for (name,watcher) in self._watchers.iteritems():
-          data = watcher.onMessage(msg)
+        for (name,listener) in self._listeners.iteritems():
+          data = listener.onMessage(msg)
           if data:
             self.current[msg['from']] = {'owner':name, 'data':data }
             break
 
-  def add_watcher(self,watcher):
-    self._watchers[watcher.name] = watcher
+  def add_listener(self,listener):
+    self._listeners[listener.name] = listener
 
   def send_msg(self, froma, to, typea, body):
     reply = domish.Element((None, "message"))
