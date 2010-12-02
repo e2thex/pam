@@ -12,6 +12,13 @@ class Plugin(plugin.Plugin):
     self.add_listener(
       plugin.RegexListener(
         name="note", 
+        description="Records and Returns User related Notes",
+        usage=[
+          ("note NOTE TEXT", "NOTE TEXT is saved as a note"),
+          ("note", "the next message is saved a a note"),
+          ("recap all", "List all current notes"),
+          ("note clear", "Delete all current notes"),
+          ],
         regexes = [
           self.note_clear_re,
           self.note_re,
