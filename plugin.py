@@ -33,10 +33,20 @@ class Listener(object):
     self.onMessage = onMessage
 
 class RegexListener(Listener):
-  def __init__(self, name, regexes, on_match):
+  def __init__(self, name, description=None, usage=None, regexes = [], on_match = None):
     self.name = name
     self.on_match = on_match
     self.regexes = regexes
+    self.description = description if description else ""
+    self._usage = usage if usage else ""
+
+  def usage(self):
+    r = []
+    for (use, note) in self._usage:
+      use = use.ljust(20)
+      r.append("{0} - {1}".format(use, note))
+    return r
+
   def onMessage(self, msg, data=None):
     if data:
       match = re.compile("had data").search("had data")
