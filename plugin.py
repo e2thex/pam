@@ -1,4 +1,5 @@
 import re
+import time
 class Plugin(object):
   def __init__(self, pam):
     self.pam = pam
@@ -7,6 +8,25 @@ class Plugin(object):
   def add_listener(self, listener):
     self.pam.add_listener(listener)
   
+  def relative_time(self, when):
+    """ 
+    take a struct time and compare it with now 
+    if it is the same day give the time, 
+    if the same week give the day of the week
+    else give the time and date
+    """
+    now = time.localtime()
+    if when[7] == now[7] :
+      return time.strftime("%H:%M", when)
+    elif when[7] > now[7] - 6:
+      return time.strftime("%H:%M on %a", when) 
+    else:
+      return time.strftime("%H:%M on %m/%d", when) 
+    
+        
+      
+
+        
 class Listener(object):
   def __init__(self,name, onMessage, for_me=None):
     self.name = name
@@ -19,7 +39,8 @@ class RegexListener(Listener):
     self.regexes = regexes
   def onMessage(self, msg, data=None):
     if data:
-      return self.on_match(None, msg, data)
+      match = re.compile("had data").search("had data")
+      return self.on_match(match, msg, data)
     else:
       for regex in self.regexes:
         match = regex.search(str(msg.body));
