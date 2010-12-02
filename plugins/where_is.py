@@ -14,7 +14,14 @@ class Plugin(plugin.Plugin):
     # callback
     self.add_listener(
       plugin.RegexListener(
-        name="repeat", 
+        name="where_is", 
+        description="Track who is in and out",
+        usage= [
+          ("i am in/out/dnd MESSAGE", 'Logs that you are in or out or should not be disturbed with extra info in MESSAGE'),
+          ("where is USER", "reply with the last entry for USER"),
+          ("who is in/out/dnd", "Returns status for all user in or out or do not disturb"),
+          ("where is everyone", "Returns staus of everyone")
+          ],
         regexes = [
           self.update_re,
           self.where_is_everyone_re,
@@ -40,7 +47,7 @@ class Plugin(plugin.Plugin):
         'details' : details,
         'when' : time.mktime(when)
       }
-      self.pam.db.where_is.remove("user", user)
+      self.pam.db.where_is.remove({"user": user})
       self.pam.db.where_is.insert(doc)
 
       body = "Enjoy" if status == 'out' else ("Back to Work" if status == 'in' else "No one bug {0}".format(user))
