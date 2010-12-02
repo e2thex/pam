@@ -77,6 +77,7 @@ class PAM(MessageProtocol):
     msg.pam = {}
     msg.pam['from'] = jid.parse(msg['from'])
     msg.pam['to'] = jid.parse(msg['to'])
+    msg.pam['body'] = str(msg.body)
 
       #if msg["type"] == 'chat' and hasattr(msg, "body"):
     if hasattr(msg, "body"):
