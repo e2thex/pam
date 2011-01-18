@@ -1,5 +1,5 @@
 import re
-import time
+import datetime
 class Plugin(object):
   def __init__(self, pam):
     self.pam = pam
@@ -8,20 +8,20 @@ class Plugin(object):
   def add_listener(self, listener):
     self.pam.add_listener(listener)
   
-  def relative_time(self, when):
+  def relative_time(self, when, now=None):
     """ 
     take a struct time and compare it with now 
     if it is the same day give the time, 
     if the same week give the day of the week
     else give the time and date
     """
-    now = time.localtime()
-    if when[7] == now[7] :
-      return time.strftime("%H:%M", when)
-    elif when[7] > now[7] - 6:
-      return time.strftime("%H:%M on %a", when) 
+    now = now if now else datetime.datetime.now()
+    if now.date()== when.date():
+      return when.strftime("%H:%M")
+    elif (now - when) > datetime.timedelta( days = 6):
+      return when.strftime("%H:%M on %a") 
     else:
-      return time.strftime("%H:%M on %m/%d", when) 
+      return when.strftime("%H:%M on %m/%d") 
     
         
       
