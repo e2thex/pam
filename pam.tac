@@ -6,7 +6,7 @@ from pam import PAM
 
 application = service.Application("pam")
 
-xmppclient = XMPPClient(jid.internJID("pam@local.e2thex.org"), "papa3")
+xmppclient = XMPPClient(jid.internJID("pam@jabber2.fayze2.com"), "papa3")
 xmppclient.logTraffic = False
 pam = PAM()
 pam.setHandlerParent(xmppclient)
