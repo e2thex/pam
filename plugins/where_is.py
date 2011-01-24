@@ -21,14 +21,14 @@ class Plugin(plugin.Plugin):
     # callback
     self.add_listener(
       plugin.RegexListener(
-        name="where_is", 
-        description="Track who is in and out",
+        name="where is", 
+        description="You can ask me what other people are doing, also tell me what you are up to, then I can tell others.",
         usage= [
-          ("i am in/out/dnd MESSAGE", 'Logs that you are in or out or should not be disturbed with extra info in MESSAGE'),
-          ("where is USER", "reply with the last entry for USER"),
-          ("who is in/out/dnd", "Returns status for all user in or out or do not disturb"),
-          ("where is everyone", "Returns staus of everyone"),
-          ("where was i", "Returns all of your previous status")
+          ("i am in / out / dnd MESSAGE", 'For example try saying: "i am in working on wilson center" Also, dnd means "do not disturb".'),
+          ("where is PERSON", "I can tell you where a certain person is"),
+          ("who is in / out / dnd", "I'll tell you statuses for everyone with a certain status"),
+          ("where is everyone", "I'll tell you what everyone is doing"),
+          ("where was i", "I'll tell you all of your previous status")
           ],
         regexes = [
           self.update_re,

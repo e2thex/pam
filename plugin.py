@@ -44,7 +44,7 @@ class RegexListener(Listener):
     r = []
     for (use, note) in self._usage:
       use = use.ljust(20)
-      r.append("{0} - {1}".format(use, note))
+      r.append("{0}\n{1}".format(use, note))
     return r
 
   def onMessage(self, msg, data=None):
